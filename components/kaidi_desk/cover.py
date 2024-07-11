@@ -25,7 +25,9 @@ async def to_code(config):
     await cover.register_cover(var, config)
 
     if CONF_UP_PIN in config:
-        cg.add(var.set_up_pin(config[CONF_UP_PIN]))
+        pin = await cg.gpio_pin_expression(config[CONF_UP_PIN])
+        cg.add(var.set_up_pin(pin))
     if CONF_DOWN_PIN in config:
-        cg.add(var.set_down_pin(config[CONF_DOWN_PIN]))
-    cg.add(var.set_duration_until_reset(config[CONF_DURATION_UNTIL_RESET]))
+        pin = await cg.gpio_pin_expression(config[CONF_DOWN_PIN])
+        cg.add(var.set_down_pin(pin))
+    cg.add(var.set_duration_until_reset(config[CONF_DURATION_UNTIL_RESET].total_milliseconds))
