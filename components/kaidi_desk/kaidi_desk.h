@@ -24,7 +24,6 @@ class KaidiDesk : public cover::Cover, public Component {
   cover::CoverTraits get_traits() override;
 
   void request_operation(KaidiDeskOperation operation);
-  KaidiDeskOperation current_operation();
 
   void set_up_pin(GPIOPin *pin) { this->up_pin_ = pin; }
   void set_down_pin(GPIOPin *pin) { this->down_pin_ = pin; }
