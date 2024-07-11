@@ -35,21 +35,25 @@ void KaidiDesk::request_operation(KaidiDeskOperation operation) {
   if (operation == this->current_operation_) {
     return;
   }
-  if (operation == IDLE || this->current_operation_ == RAISING) {
+  if ((operation == IDLE || this->current_operation_ == RAISING) && this->up_pin_ != nullptr) {
     this->up_pin_->digital_write(false);
   }
-  if (operation == IDLE || this->current_operation_ == LOWERING) {
+  if ((operation == IDLE || this->current_operation_ == LOWERING) && this->down_pin_ != nullptr) {
     this->down_pin_->digital_write(false);
   }
-  this->current_operation_ = operation;
   if (operation != IDLE) {
     last_move_time_ = millis();
   }
-  if (operation == RAISING) {
+  if (operation == RAISING && this->up_pin_ != nullptr) {
     this->up_pin_->digital_write(true);
+    this->current_operation_ = operation;
   }
-  if (operation == LOWERING) {
+  if (operation == LOWERING && this->down_pin_ != nullptr) {
     this->down_pin_->digital_write(true);
+    this->current_operation_ = operation;
+  }
+  if (operation == IDLE) {
+    this->current_operation_ = operation;
   }
 }
 
